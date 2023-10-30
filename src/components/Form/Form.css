@@ -124,3 +124,7 @@
         opacity: .7;
     }
 }
+.profile__submit_disabled {
+  color: var(--second-font-color);
+  pointer-events: none;
+}

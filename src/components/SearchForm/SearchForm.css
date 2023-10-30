@@ -39,7 +39,7 @@
     margin-bottom: 16px;
     padding-bottom: 11px;
     box-sizing: border-box;
-    border-bottom: 1.5px solid #E8E8E8;
+    border-bottom: 1.5px solid #424242;
 }
 
 @media screen and (max-width: 768px) {
@@ -80,18 +80,22 @@
     outline: 0.2px solid #4285F4;
 }
 
-.search_submit {
-    width: 80px;
+.search__submit {
+    width: 34px;
     height: 34px;
-    flex-shrink: 0;   
+    flex-shrink: 0;
     padding: 0;
     background-color: transparent;
     border: none;
-    border-radius: 48px;
+    border-radius: 50%;
     background-image: url(../../images/poisk.svg);
     background-repeat: no-repeat;
     cursor: pointer;
     transition: opacity .3s linear;
+}
+.search__submit_disabled {
+  background-image: url(../../images/searchdis.svg);
+  pointer-events: none;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -120,3 +124,4 @@
         margin-bottom: 3px;
     }
 }
+

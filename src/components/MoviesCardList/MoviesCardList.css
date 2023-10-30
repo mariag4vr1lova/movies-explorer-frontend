@@ -46,6 +46,10 @@
         row-gap: 19px
     }
 }
+.movies__serch-error {
+  text-align: center;
+  color: var(--second-font-color);
+}
 
 .movies__more {
     display: block;

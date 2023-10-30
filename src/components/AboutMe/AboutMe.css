@@ -1,7 +1,7 @@
 .page__aboutme {
     width: 100%;
     padding: 110px 0 101px;
-    background-color: var(--dark-color);
+    /* background-color: var(--dark-color); */
 }
 
 @media screen and (max-width: 1023px) {
