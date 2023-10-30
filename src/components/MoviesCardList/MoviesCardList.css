@@ -47,8 +47,9 @@
     }
 }
 .movies__serch-error {
-  text-align: center;
-  color: var(--second-font-color);
+    text-align: center;
+    color: var(--second-font-color);
+    font-family: 'Inter';
 }
 
 .movies__more {
