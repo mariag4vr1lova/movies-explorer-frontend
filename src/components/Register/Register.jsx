@@ -1,7 +1,7 @@
 import Input from "../Input/Input";
 import SectionLogin from "../SectionLogin/SectionLogin";
 import useFormValidation from '../../useFormValidation/useFormValidation'
-import { EmailRegex } from "../../utils/constants";
+import { Email_Reg } from "../../utils/constants";
 
 function Register({ name, onRegister, setIsError }) {
   const { values, errors, isInputValid, isValid, handleChange, } = useFormValidation()
@@ -12,7 +12,12 @@ function Register({ name, onRegister, setIsError }) {
   }
 
   return (
-    <SectionLogin name={name} isValid={isValid} onSubmit={onSubmit} setIsError={setIsError}>
+    <SectionLogin 
+      name={name}
+      isValid={isValid} 
+      onSubmit={onSubmit} 
+      setIsError={setIsError}
+      >
       <Input
         name='username'
         type='text'
@@ -38,8 +43,8 @@ function Register({ name, onRegister, setIsError }) {
           handleChange(evt)
           setIsError(false)
         }}
-        pattern={EmailRegex}
-        placeholder='Введите вашу электронную почту'
+        pattern={Email_Reg}
+        placeholder='Введите электронную почту'
       />
       <Input
         name='password'
@@ -53,7 +58,7 @@ function Register({ name, onRegister, setIsError }) {
           handleChange(evt)
           setIsError(false)
         }}
-        placeholder='Введите ваш пароль'
+        placeholder='Введите пароль'
       />
     </SectionLogin>
   )

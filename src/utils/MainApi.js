@@ -1,13 +1,13 @@
-class ApiMain {
+class MainApi {
   constructor(options) {
     this._url = options.baseUrl;
   }
 
-  _checkResponse(res) {return res.ok ? res.json() : Promise.reject(res.status)}
+  _checkRes(res) {return res.ok ? res.json() : Promise.reject(res.status)}
 
   _request(url, options) {
     return fetch(`${this._url}${url}`, options)
-      .then(this._checkResponse)
+      .then(this._checkRes)
   }
 
   registration(username, email, password) {
@@ -101,8 +101,8 @@ class ApiMain {
   }
 }
 
-const apiMain = new ApiMain({
+const mainApi = new MainApi({
   baseUrl: 'https:/api.diplom.imamova.nomoredomainsrocks.ru',
 });
 
-export default apiMain
+export default mainApi

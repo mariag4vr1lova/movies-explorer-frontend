@@ -11,17 +11,17 @@ function Input({ selectname, name, type, title, minLength, value, isInputValid, 
     <label className='login__label'>
         <span className='login__subtitle'>{title}</span>
         <input
-          required
-          type={type}
-          name={name}
-          minLength={minLength || ''}
-          className={`login__input ${isInputValid === undefined || isInputValid ? '' : 'login__input_invaid'}`}
-          value={value || ''}
-          onChange={onChange}
-          autoComplete='on'
-          disabled={isSend}
-          pattern={pattern}
-          placeholder={placeholder}
+            required
+            type={type}
+            name={name}
+            minLength={minLength || ''}
+            className={`login__input ${isInputValid === undefined || isInputValid ? '' : 'login__input_invaid'}`}
+            value={value || ''}
+            onChange={onChange}
+            autoComplete='on'
+            disabled={isSend}
+            pattern={pattern}
+            placeholder={placeholder}
         />
         <span className='login__error'>{error}</span>
     </label>

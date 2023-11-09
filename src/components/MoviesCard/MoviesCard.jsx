@@ -33,8 +33,8 @@ function MoviesCard({ onDelete, addMovie, data, savedMovies }) {
             <Link to={data.trailerLink} target='_blank'>
             <img src={pathname === '/movies' ? `https://api.nomoreparties.co${data.image.url}` : data.image} alt={data.name} className='movies__image' />
             </Link>
-            <div className='movies__card-group'>
-            <div className='movies__text-group'>
+            <div className='movies__information'>
+            <div className='movies__text'>
                 <p className='movies__subtitle'>{data.nameRU}</p>
                 <span className='movies__duration'>{convertTime(data.duration)}</span>
             </div>

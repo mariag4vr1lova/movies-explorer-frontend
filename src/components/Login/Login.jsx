@@ -2,7 +2,7 @@ import Input from "../Input/Input";
 import SectionLogin from "../SectionLogin/SectionLogin";
 import useFormValidation from '../../useFormValidation/useFormValidation'
 
-function Login({ name, onLogin, setIsError }) {
+function Login({ name, onLogin, setIsError, errorMessage, setErrorMessage }) {
   const { values, errors, isInputValid, isValid, handleChange, } = useFormValidation()
 
   function onSubmit(evt) {
@@ -11,7 +11,12 @@ function Login({ name, onLogin, setIsError }) {
   }
 
   return (
-    <SectionLogin name={name} isValid={isValid} onSubmit={onSubmit} setIsError={setIsError}>
+    <SectionLogin name={name}
+      isValid={isValid} 
+      onSubmit={onSubmit} 
+      setIsError={setIsError} 
+      errorMessage={errorMessage}
+      setErrorMessage={setErrorMessage}>
       <Input
         name='email'
         type='email'

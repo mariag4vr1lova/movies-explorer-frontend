@@ -4,16 +4,16 @@ import './MoviesCardList.css'
 import { useEffect, useState } from 'react'
 import Preloader from '../Preloader/Preloader'
 import {
-  MaxScreen,
-  MediumScreen,
-  SmallScreen,
-  InitMoreMaxScreen,
-  InitLessMaxScreen,
-  InitMediumScreen,
-  InitSmallScreen,
-  StepMaxScreen,
-  StepMediumScreen,
-  StepSmallScreen
+  BigDisplay,
+  MediumDispaly,
+  MiniDisplay,
+  InitMoreBigDisplay,
+  InitLessBigDisplay,
+  InitMediumDispaly,
+  InitMiniDisplay,
+  StepBigDisplay,
+  StepMediumDisplay,
+  StepMinDisplay
 } from "../../utils/constants";
 
 function MoviesCardList({ movies, onDelete, addMovie, savedMovies, isLoading, serverError, firstEntrance })  {
@@ -22,18 +22,18 @@ function MoviesCardList({ movies, onDelete, addMovie, savedMovies, isLoading, se
   const fact = movies.slice(0, count)
 
   function printCards() {
-    const counter = { init: InitMoreMaxScreen, step: StepMaxScreen }
-    if (window.innerWidth < MaxScreen) {
-      counter.init = InitLessMaxScreen
-      counter.step = StepMediumScreen
+    const counter = { init: InitMoreBigDisplay, step: StepBigDisplay }
+    if (window.innerWidth < BigDisplay) {
+      counter.init = InitLessBigDisplay
+      counter.step = StepMediumDisplay
     }
-    if (window.innerWidth < MediumScreen) {
-      counter.init = InitMediumScreen
-      counter.step = StepSmallScreen
+    if (window.innerWidth < MediumDispaly) {
+      counter.init = InitMediumDispaly
+      counter.step = StepMinDisplay
     }
-    if (window.innerWidth < SmallScreen) {
-      counter.init = InitSmallScreen
-      counter.step = StepSmallScreen
+    if (window.innerWidth < MiniDisplay) {
+      counter.init = InitMiniDisplay
+      counter.step = StepMinDisplay
     }
     return counter
   }
@@ -42,16 +42,16 @@ function MoviesCardList({ movies, onDelete, addMovie, savedMovies, isLoading, se
     if (pathname === '/movies') {
       setCount(printCards().init)
       function printCardsForResize() {
-        if (window.innerWidth >= StepMaxScreen) {
+        if (window.innerWidth >= StepBigDisplay) {
           setCount(printCards().init)
         }
-        if (window.innerWidth < StepMaxScreen) {
+        if (window.innerWidth < StepBigDisplay) {
           setCount(printCards().init)
         }
-        if (window.innerWidth < MediumScreen) {
+        if (window.innerWidth < MediumDispaly) {
           setCount(printCards().init)
         }
-        if (window.innerWidth < SmallScreen) {
+        if (window.innerWidth < MiniDisplay) {
           setCount(printCards().init)
         }
       }

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Form from '../Form/Form'
 import './Profile.css'
 import Input from '../Input/Input'
@@ -6,12 +6,12 @@ import useFormValidation from '../../useFormValidation/useFormValidation'
 import { useEffect } from 'react'
 import { useContext } from 'react'
 import CurrentUserContext from '../../contexts/CurrentUserContext'
-import { EmailRegex } from "../../utils/constants";
+import { Email_Reg, ProfileName_Reg } from "../../utils/constants";
 
-function Profile({ name, logOut, editUserData, setIsError, isSuccess, setSuccess, setIsEdit, isEdit}) {
+function Profile({ name, setLoggedIn, editUserData, setIsError, isSuccess, setSuccess, setIsEdit, isEdit}) {
   const currentUser = useContext(CurrentUserContext)
   const { values, errors, isInputValid, isValid, handleChange, reset } = useFormValidation()
-
+  const navigate = useNavigate();
   useEffect(() => {
     reset({ username: currentUser.name, email: currentUser.email })
   }, [reset, currentUser, isEdit])
@@ -19,6 +19,11 @@ function Profile({ name, logOut, editUserData, setIsError, isSuccess, setSuccess
   function onSubmit(evt) {
     evt.preventDefault()
     editUserData(values.username, values.email)
+  }
+  function handleLogout() {
+    localStorage.clear()
+    setLoggedIn(false)
+    navigate('/')
   }
 
   return (
@@ -45,6 +50,7 @@ function Profile({ name, logOut, editUserData, setIsError, isSuccess, setSuccess
           isInputValid={isInputValid.username}
           error={errors.username}
           onChange={handleChange}
+          pattern={ProfileName_Reg}
           isEdit={isEdit}
         />
         <Input
@@ -56,11 +62,11 @@ function Profile({ name, logOut, editUserData, setIsError, isSuccess, setSuccess
           isInputValid={isInputValid.email}
           error={errors.email}
           onChange={handleChange}
-          pattern={EmailRegex}
+          pattern={Email_Reg}
           isEdit={isEdit}
         />
       </Form>
-      <Link to='/' onClick={logOut} className='profile__link'>Выйти из аккаунта</Link>
+      <Link to='/' onClick={handleLogout} className='profile__link-exit'>Выйти из аккаунта</Link>
     </section>
   )
 }

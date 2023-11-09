@@ -42,10 +42,10 @@ function Header({ name, loggedIn }) {
         <nav>
             <ul className='header__links-container'>
                 <li>
-                    <Link to={'/signup'} className="header__signup">Регистрация</Link>
+                    <Link to={'/signup'} className="header__register">Регистрация</Link>
                 </li>
                 <li>
-                    <Link to={'/signin'} className="header__signin">Войти</Link>
+                    <Link to={'/signin'} className="header__login">Войти</Link>
                 </li>
             </ul>
         </nav>
