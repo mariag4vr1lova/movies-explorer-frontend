@@ -18,12 +18,26 @@ function App() {
   const [isSend, setIsSend] = useState(false)
   const [savedMovies, setSavedMovies] = useState([])
   const [currentUser, setCurrentUser] = useState({})
+  //const [headerEmail, setHeaderEmail] = useState("");
   //const [errorMessage, setErrorMessage] = useState()
   const [isError, setIsError] = useState(false)
   const [isCheckToken, setIsCheckToken] = useState(true)
   const [isSuccess, setIsSuccess] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
-
+  
+  // useEffect(() => {
+  //   if (localStorage.jwt) {
+  //     mainApi.setUserInfo(localStorage.jwt)
+  //     .then(res => {
+  //       // setHeaderEmail(res.email)
+  //       setLoggedIn(true)
+  //       navigate("/movies", { replace: true });
+  //     })
+  //     .catch(error => console.error("Ошибка авторизации при повторном входе"`${error}`))
+  //   } else {
+  //   setLoggedIn(false)
+  //   }
+  // }, [navigate])
   useEffect(() => {
     if (localStorage.jwt) {
       Promise.all([mainApi.getUserData(localStorage.jwt), mainApi.getMovies(localStorage.jwt)])
@@ -107,8 +121,7 @@ function App() {
     .then(res => {
       localStorage.setItem('jwt', res.token)
       setLoggedIn(true)
-      window.scrollTo(0, 0)
-      navigate('/movies')
+      navigate("/movies", { replace: true });
     })
     .catch((err) => {
       setIsError(true)
