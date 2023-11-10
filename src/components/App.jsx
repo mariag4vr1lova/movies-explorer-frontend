@@ -25,35 +25,29 @@ function App() {
   const [isSuccess, setIsSuccess] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   
-  // useEffect(() => {
-  //   if (localStorage.jwt) {
-  //     mainApi.setUserInfo(localStorage.jwt)
-  //     .then(res => {
-  //       // setHeaderEmail(res.email)
-  //       setLoggedIn(true)
-  //       navigate("/movies", { replace: true });
-  //     })
-  //     .catch(error => console.error("Ошибка авторизации при повторном входе"`${error}`))
-  //   } else {
-  //   setLoggedIn(false)
-  //   }
-  // }, [navigate])
+  
   useEffect(() => {
     if (localStorage.jwt) {
-      Promise.all([mainApi.getUserData(localStorage.jwt), mainApi.getMovies(localStorage.jwt)])
-        .then(([userData, dataMovies]) => {
-          setSavedMovies(dataMovies.reverse())
+      mainApi.getUserData(localStorage.jwt) 
+        .then((userData) => {
           setCurrentUser(userData)
           setLoggedIn(true)
           setIsCheckToken(false)
         })
         .catch((err) => {
-          //setErrorMessage('При авторизации произошла ошибка.')
           console.error(`Ошибка при загрузке данных ${err}`)
           setIsCheckToken(false)
-          localStorage.clear()
+          setLoggedIn(true)
         })
-    } else {
+      mainApi.getMovies(localStorage.jwt) 
+        .then((dataMovies) => {
+          setSavedMovies(dataMovies.reverse())
+        })
+        .catch((err) => {
+          console.error(`Нет сохраненных фильмов ${err}`)
+        })
+    } 
+    else {
       setLoggedIn(false)
       setIsCheckToken(false)
       localStorage.clear()
