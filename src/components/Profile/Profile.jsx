@@ -5,16 +5,16 @@ import Input from '../Input/Input'
 import useFormValidation from '../../useFormValidation/useFormValidation'
 import { useEffect } from 'react'
 import { useContext } from 'react'
-import CurrentUserContext from '../../contexts/CurrentUserContext'
+import ActualUserContext from '../../contexts/ActualUserContext'
 import { Email_Reg, ProfileName_Reg } from "../../utils/constants";
 
-function Profile({ name, setLoggedIn, editUserData, setIsError, isSuccess, setSuccess, setIsEdit, isEdit}) {
-  const currentUser = useContext(CurrentUserContext)
+function Profile({ name, setLoggedIn, editUserData, setError, isSuccess, setSuccess, setIsEdit, isEdit}) {
+  const actualUser = useContext(ActualUserContext)
   const { values, errors, isInputValid, isValid, handleChange, reset } = useFormValidation()
   const navigate = useNavigate();
   useEffect(() => {
-    reset({ username: currentUser.name, email: currentUser.email })
-  }, [reset, currentUser, isEdit])
+    reset({ username: actualUser.name, email: actualUser.email })
+  }, [reset, actualUser, isEdit])
 
   function onSubmit(evt) {
     evt.preventDefault()
@@ -28,12 +28,12 @@ function Profile({ name, setLoggedIn, editUserData, setIsError, isSuccess, setSu
 
   return (
     <section className="profile page__profile">
-      <h2 className='profile__title'>{`Привет, ${currentUser.name}!`}</h2>
+      <h2 className='profile__title'>{`Привет, ${actualUser.name}!`}</h2>
       <Form
         name={name}
         isValid={isValid}
         onSubmit={onSubmit}
-        setIsError={setIsError}
+        setError={setError}
         values={values}
         isSuccess={isSuccess}
         setSuccess={setSuccess}

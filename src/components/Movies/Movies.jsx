@@ -5,70 +5,72 @@ import apiMovies from '../../utils/MoviesApi';
 import { useEffect } from "react";
 import { ShortDuration } from '../../utils/constants'
 
-function Movies({ setIsError, addMovie, savedMovies }) {
-  const [searchedMovie, setSearchedMovie] = useState('')
-  const [allMovies, setAllMovies] = useState([])
-  const [filterMovies, setFilterMovies] = useState([])
-  const [isCheck, setIsCheck] = useState(false)
+function Movies({ setError, addMovie, likeMovie, savedMovies }) {
+  const [searchResults, setSearchResults] = useState('')
+  const [isMovies, setIsMovies] = useState([])
+  const [filterResults, setFilterResults] = useState([])
+  const [isShort, setIsShort] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [firstEntrance, setFirstEntrance] = useState(true)
-  const [serverError, setServerError] = useState(false)
+  const [notFound, setNotFound] = useState(false)
   
 
-  const filters = useCallback((search, isCheck, movies) => {
-    setSearchedMovie(search)
-    localStorage.setItem('movie', JSON.stringify(search))
-    localStorage.setItem('shorts', JSON.stringify(isCheck))
-    localStorage.setItem('allmovies', JSON.stringify(movies))
-    setFilterMovies(movies.filter((movie) => {
-      const searchTitle = movie.nameRU.toLowerCase().includes(search.toLowerCase())
-      return isCheck ? (searchTitle && movie.duration <= ShortDuration) : searchTitle
+  const filterMovies = useCallback((search, isShort, movies) => {
+    setSearchResults(search)
+    localStorage.getItem('movie', JSON.stringify(search))
+    localStorage.getItem('shorts', JSON.stringify(isShort))
+    localStorage.getItem('isMovies', JSON.stringify(movies))
+    setFilterResults(movies.filter((movie) => {
+      const sort = 
+      movie.nameRU.toLowerCase().includes(search.toLowerCase()) ||
+      movie.nameEN.toLowerCase().includes(search.toLowerCase());
+      return isShort ? (sort && movie.duration <= ShortDuration) : sort
     }))
   }, [])
 
-  function searchMovies(search) {
-    if (allMovies.length === 0) {
+  function getMovies(search) {
+    if (!localStorage.getItem('movie') || isMovies.length === 0) {
       setIsLoading(true)
       apiMovies.getMovies()
         .then((res) => {
-          setAllMovies(res)
-          setIsCheck(false)
+          setIsMovies(res)
+          setIsShort(false)
           setFirstEntrance(false)
-          setServerError(false)
-          filters(search, isCheck, res)
+          setNotFound(false)
+          filterMovies(search, isShort, res)
         })
         .catch(err => {
-          setServerError(true)
+          setNotFound(true)
           console.error(`Ошибкак во время поиска фильмов ${err}`)
         })
         .finally(() => setIsLoading(false))
     } else {
-      filters(search, isCheck, allMovies)
+      filterMovies(search, isShort, isMovies)
     }
   }
 
   useEffect(() => {
-    if (localStorage.allmovies && localStorage.shorts && localStorage.movie) {
-      const movies = JSON.parse(localStorage.allmovies)
+    if (localStorage.isMovies && localStorage.shorts && localStorage.movie) {
+      const movies = JSON.parse(localStorage.isMovies)
       const search = JSON.parse(localStorage.movie)
-      const isCheck = JSON.parse(localStorage.shorts)
-      setServerError(false)
+      const isShort = JSON.parse(localStorage.shorts)
+      setNotFound(false)
       setFirstEntrance(false)
-      setSearchedMovie(search)
-      setIsCheck(isCheck)
-      setAllMovies(movies)
-      filters(search, isCheck, movies)
+      setSearchResults(search)
+      setIsShort(isShort)
+      setIsMovies(movies)
+      filterMovies(search, isShort, movies)
     }
-  }, [filters])
+  }, [filterMovies])
 
-  function changeShort() {
-    if (isCheck) {
-      setIsCheck(false)
-      filters(searchedMovie, false, allMovies)
+  function handleSearch() {
+    if (isShort) {
+      setIsShort(false)
+      filterMovies(searchResults, false, isMovies)
       localStorage.setItem('shorts', JSON.stringify(false))
     } else {
-      setIsCheck(true)
-      filters(searchedMovie, true, allMovies)
+      setIsShort(true)
+      filterMovies(searchResults, true, isMovies)
       localStorage.setItem('shorts', JSON.stringify(true))
     }
   }
@@ -76,20 +78,21 @@ function Movies({ setIsError, addMovie, savedMovies }) {
   return (
     <>
       <SearchForm
-        isCheck={isCheck}
+        isShort={isShort}
         firstEntrance={firstEntrance}
-        searchMovies={searchMovies}
-        changeShort={changeShort}
-        searchedMovie={searchedMovie}
-        setIsError={setIsError} 
+        getMovies={getMovies}
+        handleSearch={handleSearch}
+        searchResults={searchResults}
+        setError={setError} 
       />
       <MoviesCardList
-        movies={filterMovies}
+        movies={filterResults}
         firstEntrance={firstEntrance}
         isLoading={isLoading}
         addMovie={addMovie}
+        likeMovie={likeMovie}
         savedMovies={savedMovies}
-        serverError={serverError}
+        notFound={notFound}
       />
     </>
   )

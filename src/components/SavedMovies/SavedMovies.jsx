@@ -2,24 +2,24 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import { useCallback, useEffect, useState } from "react";
 
-export default function SavedMovies({ savedMovie, onDelete, setIsError }) {
+export default function SavedMovies({ savedMovie, onDelete, setError }) {
 
   const [filteredMovies, setFilteredMovies] = useState(savedMovie)
-  const [searchedMouvie, setSearchedMovie] = useState('')
-  const [isCheck, setIsCheck] = useState(false)
+  const [searchedMouvie, setSearchResults] = useState('')
+  const [isShort, setIsShort] = useState(false)
   const [firstEntrance, setFirstEntrance] = useState(true)
 
-  const filter = useCallback((search, isCheck, movies) => {
-    setSearchedMovie(search)
+  const filter = useCallback((search, isShort, movies) => {
+    setSearchResults(search)
     setFilteredMovies(movies.filter((movie) => {
       const searchName = movie.nameRU.toLowerCase().includes(search.toLowerCase())
-      return isCheck ? (searchName && movie.duration <= 40) : searchName
+      return isShort ? (searchName && movie.duration <= 40) : searchName
     }))
   }, [])
 
   function searchMovies(search) {
     setFirstEntrance(false)
-    filter(search, isCheck, savedMovie)
+    filter(search, isShort, savedMovie)
   }
 
   useEffect(() => {
@@ -28,16 +28,16 @@ export default function SavedMovies({ savedMovie, onDelete, setIsError }) {
     } else {
       setFirstEntrance(false)
     }
-    filter(searchedMouvie, isCheck, savedMovie)
-  }, [filter, savedMovie, isCheck, searchedMouvie])
+    filter(searchedMouvie, isShort, savedMovie)
+  }, [filter, savedMovie, isShort, searchedMouvie])
 
-  function changeShort() {
-    if (isCheck) {
-      setIsCheck(false)
+  function handleSearch() {
+    if (isShort) {
+      setIsShort(false)
       setFirstEntrance(false)
       filter(searchedMouvie, false, savedMovie)
     } else {
-      setIsCheck(true)
+      setIsShort(true)
       setFirstEntrance(false)
       filter(searchedMouvie, true, savedMovie)
     }
@@ -46,11 +46,11 @@ export default function SavedMovies({ savedMovie, onDelete, setIsError }) {
   return (
     <>
       <SearchForm
-        isCheck={isCheck}
+        isShort={isShort}
         searchMovies={searchMovies}
-        searchedMovie={searchedMouvie}
-        changeShort={changeShort}
-        setIsError={setIsError}
+        searchResults={searchedMouvie}
+        handleSearch={handleSearch}
+        setError={setError}
         firstEntrance={firstEntrance}
         savedMovie={savedMovie}
       />

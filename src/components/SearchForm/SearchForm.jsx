@@ -6,27 +6,27 @@ import { useContext } from 'react'
 import useFormValidation from '../../useFormValidation/useFormValidation'
 import { useLocation } from 'react-router-dom'
 
-function SearchForm({ isCheck, changeShort, searchedMovie, searchMovies, setIsError, firstEntrance, savedMovie, }) {
-  const { pathname } = useLocation()
-  const isError = useContext(ErrorContext)
+function SearchForm({ isShort, handleSearch, searchResults, getMovies, setError, firstEntrance, savedMovie, }) {
+  const location = useLocation();
+  const error = useContext(ErrorContext)
   const { values, handleChange, reset } = useFormValidation()
 
   useEffect(() => {
-    if ((pathname === '/saved-movies' && savedMovie.length === 0)) {
+    if ((location.pathname === '/saved-movies' && savedMovie.length === 0)) {
       reset({ search: '' })
     } else {
-      reset({ search: searchedMovie })
+      reset({ search: searchResults })
     }
-    setIsError(false)
-  }, [searchedMovie, reset, setIsError, pathname, savedMovie])
+    setError(false)
+  }, [searchResults, reset, setError, location.pathname, savedMovie])
 
   function onSubmit(evt) {
     evt.preventDefault()
     if (evt.target.search.value) {
-      searchMovies(evt.target.search.value)
-      setIsError(false)
+      getMovies(evt.target.search.value)
+      setError(false)
     } else {
-      setIsError(true)
+      setError(true)
     }
   }
 
@@ -42,15 +42,15 @@ function SearchForm({ isCheck, changeShort, searchedMovie, searchMovies, setIsEr
             value={values.search || ''}
             onChange={(evt) => {
               handleChange(evt)
-              setIsError(false)
+              setError(false)
             }}
             disabled={savedMovie ? (savedMovie.length === 0 && true) : false}
             required
           />
-          <button type='submit' className={`search__submit ${savedMovie ? (pathname === '/saved-movies' && savedMovie.length === 0) && 'search__submit_disabled' : ''}`}></button>
+          <button type='submit' className={`search__submit ${savedMovie ? (location.pathname === '/saved-movies' && savedMovie.length === 0) && 'search__submit_disabled' : ''}`}></button>
         </form>
-        <span className={`search__error ${isError && 'search__error_active'}`}>{'Введите ключевое слово'}</span>
-        <FilterCheckbox isCheck={isCheck} changeShort={changeShort} firstEntrance={firstEntrance} />
+        <span className={`search__error ${error && 'search__error_active'}`}>{'Введите ключевое слово'}</span>
+        <FilterCheckbox isShort={isShort} handleSearch={handleSearch} firstEntrance={firstEntrance} />
       </div>
     </section>
   )

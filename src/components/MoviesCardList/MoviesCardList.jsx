@@ -16,64 +16,67 @@ import {
   StepMinDisplay
 } from "../../utils/constants";
 
-function MoviesCardList({ movies, onDelete, addMovie, savedMovies, isLoading, serverError, firstEntrance })  {
-  const { pathname } = useLocation()
-  const [count, setCount] = useState('')
-  const fact = movies.slice(0, count)
+function MoviesCardList({ movies, onDelete, addMovie, savedMovies, isLoading, likeMovie, notFound, firstEntrance })  {
+  const location = useLocation();
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth)
+  const fact = movies.slice(0, screenWidth)
 
-  function printCards() {
+  function cardsMovies() {
+    const screenWidth = window.innerWidth;
     const counter = { init: InitMoreBigDisplay, step: StepBigDisplay }
-    if (window.innerWidth < BigDisplay) {
+    if (screenWidth < BigDisplay) {
       counter.init = InitLessBigDisplay
       counter.step = StepMediumDisplay
     }
-    if (window.innerWidth < MediumDispaly) {
+    if (screenWidth < MediumDispaly) {
       counter.init = InitMediumDispaly
       counter.step = StepMinDisplay
     }
-    if (window.innerWidth < MiniDisplay) {
+    if (screenWidth < MiniDisplay) {
       counter.init = InitMiniDisplay
       counter.step = StepMinDisplay
     }
     return counter
   }
+  
 
   useEffect(() => {
-    if (pathname === '/movies') {
-      setCount(printCards().init)
-      function printCardsForResize() {
+    if (location.pathname === '/movies') {
+      setScreenWidth(cardsMovies().init)
+      function cardsMovieForResize() {
         if (window.innerWidth >= StepBigDisplay) {
-          setCount(printCards().init)
+          setScreenWidth(cardsMovies().init)
         }
         if (window.innerWidth < StepBigDisplay) {
-          setCount(printCards().init)
+          setScreenWidth(cardsMovies().init)
         }
         if (window.innerWidth < MediumDispaly) {
-          setCount(printCards().init)
+          setScreenWidth(cardsMovies().init)
         }
         if (window.innerWidth < MiniDisplay) {
-          setCount(printCards().init)
+          setScreenWidth(cardsMovies().init)
         }
       }
-      window.addEventListener('resize', printCardsForResize)
-      return () => window.removeEventListener('resize', printCardsForResize)
+      window.addEventListener('resize', cardsMovieForResize);
+      return () => window.removeEventListener('resize', cardsMovieForResize);
     }
-  }, [pathname, movies])
+  }, [location.pathname, movies])
 
   function clickMore() {
-    setCount(count + printCards().step)
+    setScreenWidth(screenWidth + cardsMovies().step)
   }
     return (
         <section className='movies page__movies'>
         <ul className='movies__lists'>
         {isLoading ? <Preloader /> :
-          (pathname === '/movies' && fact.length !== 0) ?
+          (location.pathname === '/movies' && fact.length !== 0) ?
             fact.map(data => {
               return (
                 <MoviesCard
                   key={data.id}
                   savedMovies={savedMovies}
                   addMovie={addMovie}
+                  likeMovie={likeMovie}
                   data={data}
                 />
               )
@@ -86,20 +89,20 @@ function MoviesCardList({ movies, onDelete, addMovie, savedMovies, isLoading, se
                     data={data}
                   />
                 )
-              }) : serverError ?
+              }) : notFound ?
                 <span className='movies__serch-error'>«Во время запроса произошла ошибка.
                   Возможно, проблема с соединением или сервер недоступен.
                   Подождите немного и попробуйте ещё раз»
                 </span>
                 : !firstEntrance ?
                 <span className='movies__serch-error'>«Ничего не найдено»</span>
-                : pathname === '/movies' ?
+                : location.pathname === '/movies' ?
                 <span className='movies__serch-error'>«Чтобы увидеть список фильмоа выполните поиск»</span>
                 :
                 <span className='movies__serch-error'>«Нет сохранённых фильмов»</span>
         }
         </ul>
-        {pathname === '/movies' && <button type='button' className={`movies__more ${count >= movies.length && 'movies__more_hidden'}`} onClick={clickMore}>Ёще</button>}
+        {location.pathname === '/movies' && <button type='button' className={`movies__more ${screenWidth >= movies.length && 'movies__more_hidden'}`} onClick={clickMore}>Ёще</button>}
         </section>
     )
 }

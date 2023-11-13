@@ -2,7 +2,7 @@ import Input from "../Input/Input";
 import SectionLogin from "../SectionLogin/SectionLogin";
 import useFormValidation from '../../useFormValidation/useFormValidation'
 
-function Login({ name, onLogin, setIsError, errorMessage, setErrorMessage }) {
+function Login({ name, onLogin, setError, errorMessage, setErrorMessage }) {
   const { values, errors, isInputValid, isValid, handleChange, } = useFormValidation()
 
   function onSubmit(evt) {
@@ -14,7 +14,7 @@ function Login({ name, onLogin, setIsError, errorMessage, setErrorMessage }) {
     <SectionLogin name={name}
       isValid={isValid} 
       onSubmit={onSubmit} 
-      setIsError={setIsError} 
+      setError={setError} 
       errorMessage={errorMessage}
       setErrorMessage={setErrorMessage}>
       <Input
@@ -26,7 +26,7 @@ function Login({ name, onLogin, setIsError, errorMessage, setErrorMessage }) {
         error={errors.email}
         onChange={(evt) => {
           handleChange(evt)
-          setIsError(false)
+          setError(false)
         }}
         placeholder='Введите вашу электронную почту'
       />
@@ -40,7 +40,7 @@ function Login({ name, onLogin, setIsError, errorMessage, setErrorMessage }) {
         error={errors.password}
         onChange={(evt) => {
           handleChange(evt)
-          setIsError(false)
+          setError(false)
         }}
         placeholder='Введите ваш пароль'
       />
