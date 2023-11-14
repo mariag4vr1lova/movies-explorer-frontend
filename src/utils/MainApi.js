@@ -102,7 +102,7 @@ class MainApi {
 }
 
 const mainApi = new MainApi({
-  baseUrl: 'https:/api.diplom.imamova.nomoredomainsrocks.ru',
+  baseUrl: 'https://api.diplom.imamova.nomoredomainsrocks.ru',
 });
 
 export default mainApi
