@@ -17,9 +17,9 @@ function Movies({ setError, addMovie, likeMovie, savedMovies }) {
 
   const filterMovies = useCallback((search, isShort, movies) => {
     setSearchResults(search)
-    localStorage.getItem('movie', JSON.stringify(search))
-    localStorage.getItem('shorts', JSON.stringify(isShort))
-    localStorage.getItem('isMovies', JSON.stringify(movies))
+    localStorage.setItem('movie', JSON.stringify(search))
+    localStorage.setItem('shorts', JSON.stringify(isShort))
+    localStorage.setItem('isMovies', JSON.stringify(movies))
     setFilterResults(movies.filter((movie) => {
       const sort = 
       movie.nameRU.toLowerCase().includes(search.toLowerCase()) ||

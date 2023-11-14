@@ -40,6 +40,8 @@ function App() {
       mainApi.getMovies(localStorage.jwt) 
         .then((dataMovies) => {
           setMovies(dataMovies.reverse())
+          setLoggedIn(true)
+          setIsShortToken(false)
         })
         .catch((err) => {
           console.error(`Нет сохраненных фильмов ${err}`)
