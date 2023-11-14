@@ -10,7 +10,8 @@ function SearchForm({ isShort, handleSearch, searchResults, getMovies, setError,
   const location = useLocation();
   const error = useContext(ErrorContext)
   const { values, handleChange, reset } = useFormValidation()
-
+  const searchInputValue = values.search
+  
   useEffect(() => {
     if ((location.pathname === '/saved-movies' && savedMovie.length === 0)) {
       reset({ search: '' })
@@ -22,13 +23,9 @@ function SearchForm({ isShort, handleSearch, searchResults, getMovies, setError,
 
   function onSubmit(evt) {
     evt.preventDefault()
-    if (evt.target.search.value) {
-      getMovies(evt.target.search.value)
-      setError(false)
-    } else {
-      setError(true)
-    }
+    getMovies(evt.target.search.value)
   }
+  
 
   return (
     <section className='search page__search'>
@@ -50,7 +47,7 @@ function SearchForm({ isShort, handleSearch, searchResults, getMovies, setError,
           <button type='submit' className={`search__submit ${savedMovie ? (location.pathname === '/saved-movies' && savedMovie.length === 0) && 'search__submit_disabled' : ''}`}></button>
         </form>
         <span className={`search__error ${error && 'search__error_active'}`}>{'Введите ключевое слово'}</span>
-        <FilterCheckbox isShort={isShort} handleSearch={handleSearch} firstEntrance={firstEntrance} />
+        <FilterCheckbox searchInputValue={searchInputValue} isShort={isShort} handleSearch={handleSearch} firstEntrance={firstEntrance} />
       </div>
     </section>
   )

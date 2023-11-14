@@ -1,19 +1,20 @@
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import { useCallback, useEffect, useState } from "react";
+import { ShortDuration } from '../../utils/constants';
 
 export default function SavedMovies({ savedMovie, onDelete, setError }) {
 
   const [filteredMovies, setFilteredMovies] = useState(savedMovie)
-  const [searchedMouvie, setSearchResults] = useState('')
+  const [searchedMovie, setSearchedMovie] = useState('')
   const [isShort, setIsShort] = useState(false)
   const [firstEntrance, setFirstEntrance] = useState(true)
 
   const filter = useCallback((search, isShort, movies) => {
-    setSearchResults(search)
+    setSearchedMovie(search)
     setFilteredMovies(movies.filter((movie) => {
       const searchName = movie.nameRU.toLowerCase().includes(search.toLowerCase())
-      return isShort ? (searchName && movie.duration <= 40) : searchName
+      return isShort ? (searchName && movie.duration <= ShortDuration) : searchName
     }))
   }, [])
 
@@ -28,18 +29,18 @@ export default function SavedMovies({ savedMovie, onDelete, setError }) {
     } else {
       setFirstEntrance(false)
     }
-    filter(searchedMouvie, isShort, savedMovie)
-  }, [filter, savedMovie, isShort, searchedMouvie])
+    filter(searchedMovie, isShort, savedMovie)
+  }, [filter, savedMovie, isShort, searchedMovie])
 
   function handleSearch() {
     if (isShort) {
       setIsShort(false)
       setFirstEntrance(false)
-      filter(searchedMouvie, false, savedMovie)
+      filter(searchedMovie, false, savedMovie)
     } else {
       setIsShort(true)
       setFirstEntrance(false)
-      filter(searchedMouvie, true, savedMovie)
+      filter(searchedMovie, true, savedMovie)
     }
   }
 
@@ -48,7 +49,7 @@ export default function SavedMovies({ savedMovie, onDelete, setError }) {
       <SearchForm
         isShort={isShort}
         searchMovies={searchMovies}
-        searchResults={searchedMouvie}
+        searchResults={searchedMovie}
         handleSearch={handleSearch}
         setError={setError}
         firstEntrance={firstEntrance}

@@ -52,10 +52,6 @@ function App() {
     }
   }, [loggedIn])
 
-  const setSuccess = useCallback(() => {
-    setIsSuccess(false)
-  }, [])
-
   function handleLikelMovie(data) {
       const isLike = movies.some(element => data.id === element.movieId)
       const movieClick = movies.filter((movie) => {
@@ -72,7 +68,9 @@ function App() {
       })
       .catch((err) => console.error(`Ошибка при удалении фильма ${err}`))
   }
-    
+  const setSuccess = useCallback(() => {
+    setIsSuccess(false)
+  }, []) 
   function handleDeleteMovie(deletemovieId) {
       mainApi.deleteMovie(deletemovieId, localStorage.jwt)
         .then(() => {
