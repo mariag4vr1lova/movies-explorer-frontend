@@ -40,8 +40,6 @@ function App() {
       mainApi.getMovies(localStorage.jwt) 
         .then((dataMovies) => {
           setMovies(dataMovies.reverse())
-          setLoggedIn(true)
-          setIsShortToken(false)
         })
         .catch((err) => {
           console.error(`Нет сохраненных фильмов ${err}`)
@@ -68,7 +66,7 @@ function App() {
       .then(res => {
         setMovies([res, ...movies])
       })
-      .catch((err) => console.error(`Ошибка при удалении фильма ${err}`))
+      .catch((err) => console.error(`Ошибка при сохранении фильма ${err}`))
   }
   const setSuccess = useCallback(() => {
     setIsSuccess(false)
@@ -116,6 +114,7 @@ function App() {
       localStorage.setItem('jwt', res.token)
       setLoggedIn(true)
       navigate("/movies", { replace: true });
+      window.scrollTo(0, 0);
     })
     .catch((err) => {
       setLoggedIn(false)
@@ -124,7 +123,12 @@ function App() {
     })
     .finally(() => {setIsPreloader(false)})
   }
-
+  
+  function handleLogout() {
+    localStorage.clear()
+    setLoggedIn(false)
+    navigate('/')
+  }
   function handleUpdateUser(username, email) {
     setIsPreloader(true)
     mainApi.setUserInfo(username, email, localStorage.jwt)
@@ -167,6 +171,7 @@ function App() {
                   element={ProtectedPage}
                   name='profile'
                   loggedIn={loggedIn}
+                  handleLogout={handleLogout}
                   editUserData={handleUpdateUser}
                   setError={setError}
                   isSuccess={isSuccess}

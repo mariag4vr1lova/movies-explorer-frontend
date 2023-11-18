@@ -48,7 +48,7 @@ function Form({ name, children, isValid, onSubmit, setError, values, isSuccess, 
           </>
           : !isEdit ?
             <>
-              <span className={`profile__error-request ${error ? 'profile__error-request_type_error' : isSuccess && 'profile__error-request_type_success'}`}>{error ? 'При обновлении профиля произошла ошибка.' : 'Успешно'}</span>
+              <span className={`profile__error-request ${error ? 'profile__error-request_type_error' : isSuccess && 'profile__error-request_type_success'}`}>{error ? 'При обновлении профиля произошла ошибка.' : 'Данные изменены успешно!'}</span>
               <button
                 type="button"
                 className={`profile__submit `}
@@ -59,7 +59,7 @@ function Form({ name, children, isValid, onSubmit, setError, values, isSuccess, 
               >{'Редактировать'}</button>
             </> :
             <>
-              <span className={`profile__error-request ${error ? 'profile__error-request_type_error' : isSuccess && 'profile__error-request_type_success'}`}>{error ? 'При обновлении профиля произошла ошибка.' : 'Успешно'}</span>
+              <span className={`profile__error-request ${error ? 'profile__error-request_type_error' : isSuccess && 'profile__error-request_type_success'}`}>{error ? 'При обновлении профиля произошла ошибка.' : 'Данные изменены успешно!'}</span>
               <button
                 type="submit"
                 className={`login__submit ${(values.username === actualUser.name && values.email === actualUser.email) || !isValid || error ? 'login__submit_disabled' : ''}`}

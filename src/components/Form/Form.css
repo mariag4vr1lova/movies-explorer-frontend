@@ -79,10 +79,19 @@
     line-height: normal;
     color: #FF004C;
 }
-
+.profile__error-request_type_success{
+    visibility: visible;
+    color: white;
+}
+.profile__error-request_type_error{
+    visibility: visible;
+}
 @media screen and (max-width: 768px) {
     .profile__error-request {
         margin-top: 157px;
+    }
+    .profile__error-request_type_success {
+        margin-top: 325px;
     }
 }
 
@@ -90,11 +99,12 @@
     .profile__error-request {
         margin-top: 325px;
     }
+    .profile__error-request_type_success {
+        margin-top: 325px;
+    }
 }
 
-.profile__error-request_active {
-    visibility: visible;
-}
+
 
 .profile__submit {
     display: block;

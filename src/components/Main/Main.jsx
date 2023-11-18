@@ -15,7 +15,7 @@ function Main({
   name,
   onRegister,
   onLogin,
-  logOut,
+  handleLogout,
   editUserData,
   setError,
   savedMovies,
@@ -44,7 +44,7 @@ function Main({
         error: <Error />,
         profile: <Profile
           name={name}
-          logOut={logOut}
+          handleLogout={handleLogout}
           editUserData={editUserData}
           setError={setError}
           isSuccess={isSuccess}
@@ -58,7 +58,7 @@ function Main({
           </>,
         savedmovies:
           <>
-            <SavedMovies savedMovie={savedMovies} onDelete={onDelete} setError={setError} />
+            <SavedMovies savedFilms={savedMovies} onDelete={onDelete} setError={setError} />
           </>
       }[name]}
     </main>

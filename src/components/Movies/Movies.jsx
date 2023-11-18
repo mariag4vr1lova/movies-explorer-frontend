@@ -15,7 +15,7 @@ function Movies({ setError, addMovie, likeMovie, savedMovies }) {
   const [notFound, setNotFound] = useState(false)
   
 
-  const filterMovies = useCallback((search, isShort, movies) => {
+  const filter = useCallback((search, isShort, movies) => {
     setSearchResults(search)
     localStorage.setItem('movie', JSON.stringify(search))
     localStorage.setItem('shorts', JSON.stringify(isShort))
@@ -28,8 +28,8 @@ function Movies({ setError, addMovie, likeMovie, savedMovies }) {
     }))
   }, [])
 
-  function getMovies(search) {
-    if (!localStorage.getItem('movie') || isMovies.length === 0) {
+  function searchMovies(search) {
+    if (isMovies.length === 0) {
       setIsLoading(true)
       apiMovies.getMovies()
         .then((res) => {
@@ -37,7 +37,7 @@ function Movies({ setError, addMovie, likeMovie, savedMovies }) {
           setIsShort(false)
           setFirstEntrance(false)
           setNotFound(false)
-          filterMovies(search, isShort, res)
+          filter(search, isShort, res)
         })
         .catch(err => {
           setNotFound(true)
@@ -45,8 +45,9 @@ function Movies({ setError, addMovie, likeMovie, savedMovies }) {
         })
         .finally(() => setIsLoading(false))
     } else {
-      filterMovies(search, isShort, isMovies)
+      filter(search, isShort, isMovies)
     }
+    console.log(search)
   }
 
   useEffect(() => {
@@ -59,18 +60,18 @@ function Movies({ setError, addMovie, likeMovie, savedMovies }) {
       setSearchResults(search)
       setIsShort(isShort)
       setIsMovies(movies)
-      filterMovies(search, isShort, movies)
+      filter(search, isShort, movies)
     }
-  }, [filterMovies])
+  }, [filter])
 
   function handleSearch() {
     if (isShort) {
       setIsShort(false)
-      filterMovies(searchResults, false, isMovies)
+      filter(searchResults, false, isMovies)
       localStorage.setItem('shorts', JSON.stringify(false))
     } else {
       setIsShort(true)
-      filterMovies(searchResults, true, isMovies)
+      filter(searchResults, true, isMovies)
       localStorage.setItem('shorts', JSON.stringify(true))
     }
   }
@@ -80,7 +81,7 @@ function Movies({ setError, addMovie, likeMovie, savedMovies }) {
       <SearchForm
         isShort={isShort}
         firstEntrance={firstEntrance}
-        getMovies={getMovies}
+        searchMovies={searchMovies}
         handleSearch={handleSearch}
         searchResults={searchResults}
         setError={setError} 

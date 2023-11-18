@@ -6,24 +6,24 @@ import { useContext } from 'react'
 import useFormValidation from '../../useFormValidation/useFormValidation'
 import { useLocation } from 'react-router-dom'
 
-function SearchForm({ isShort, handleSearch, searchResults, getMovies, setError, firstEntrance, savedMovie, }) {
+function SearchForm({ isShort, handleSearch, searchResults, searchMovies, setError, firstEntrance, savedFilms, }) {
   const location = useLocation();
   const error = useContext(ErrorContext)
   const { values, handleChange, reset } = useFormValidation()
-  const searchInputValue = values.search
+  // const searchInputValue = values.search
   
   useEffect(() => {
-    if ((location.pathname === '/saved-movies' && savedMovie.length === 0)) {
+    if ((location.pathname === '/saved-movies' && savedFilms.length === 0)) {
       reset({ search: '' })
     } else {
       reset({ search: searchResults })
     }
     setError(false)
-  }, [searchResults, reset, setError, location.pathname, savedMovie])
+  }, [searchResults, reset, setError, location.pathname, savedFilms])
 
   function onSubmit(evt) {
     evt.preventDefault()
-    getMovies(evt.target.search.value)
+      searchMovies(evt.target.search.value)
   }
   
 
@@ -41,13 +41,13 @@ function SearchForm({ isShort, handleSearch, searchResults, getMovies, setError,
               handleChange(evt)
               setError(false)
             }}
-            disabled={savedMovie ? (savedMovie.length === 0 && true) : false}
+            disabled={savedFilms ? (savedFilms.length === 0 && true) : false}
             required
           />
-          <button type='submit' className={`search__submit ${savedMovie ? (location.pathname === '/saved-movies' && savedMovie.length === 0) && 'search__submit_disabled' : ''}`}></button>
+          <button type='submit' className={`search__submit ${savedFilms ? (location.pathname === '/saved-movies' && savedFilms.length === 0) && 'search__submit_disabled' : ''}`}></button>
         </form>
         <span className={`search__error ${error && 'search__error_active'}`}>{'Введите ключевое слово'}</span>
-        <FilterCheckbox searchInputValue={searchInputValue} isShort={isShort} handleSearch={handleSearch} firstEntrance={firstEntrance} />
+        <FilterCheckbox  isShort={isShort} handleSearch={handleSearch} firstEntrance={firstEntrance} />
       </div>
     </section>
   )

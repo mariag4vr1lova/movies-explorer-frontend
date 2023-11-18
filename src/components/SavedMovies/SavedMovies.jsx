@@ -3,44 +3,44 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import { useCallback, useEffect, useState } from "react";
 import { ShortDuration } from '../../utils/constants';
 
-export default function SavedMovies({ savedMovie, onDelete, setError }) {
+export default function SavedMovies({ savedFilms, onDelete, setError }) {
 
-  const [filteredMovies, setFilteredMovies] = useState(savedMovie)
-  const [searchedMovie, setSearchedMovie] = useState('')
+  const [filterResults, setFilterResults] = useState(savedFilms)
+  const [searchResults, setSearchResults] = useState('')
   const [isShort, setIsShort] = useState(false)
   const [firstEntrance, setFirstEntrance] = useState(true)
 
   const filter = useCallback((search, isShort, movies) => {
-    setSearchedMovie(search)
-    setFilteredMovies(movies.filter((movie) => {
-      const searchName = movie.nameRU.toLowerCase().includes(search.toLowerCase())
-      return isShort ? (searchName && movie.duration <= ShortDuration) : searchName
+    setSearchResults(search)
+    setFilterResults(movies.filter((movie) => {
+      const sort = movie.nameRU.toLowerCase().includes(search.toLowerCase())
+      return isShort ? (sort && movie.duration <= ShortDuration) : sort
     }))
   }, [])
 
   function searchMovies(search) {
     setFirstEntrance(false)
-    filter(search, isShort, savedMovie)
+    filter(search, isShort, savedFilms)
   }
 
   useEffect(() => {
-    if (savedMovie.length === 0) {
+    if (savedFilms.length === 0) {
       setFirstEntrance(true)
     } else {
       setFirstEntrance(false)
     }
-    filter(searchedMovie, isShort, savedMovie)
-  }, [filter, savedMovie, isShort, searchedMovie])
+    filter(searchResults, isShort, savedFilms)
+  }, [filter, savedFilms, isShort, searchResults])
 
   function handleSearch() {
     if (isShort) {
       setIsShort(false)
       setFirstEntrance(false)
-      filter(searchedMovie, false, savedMovie)
+      filter(searchResults, false, savedFilms)
     } else {
       setIsShort(true)
       setFirstEntrance(false)
-      filter(searchedMovie, true, savedMovie)
+      filter(searchResults, true, savedFilms)
     }
   }
 
@@ -49,14 +49,14 @@ export default function SavedMovies({ savedMovie, onDelete, setError }) {
       <SearchForm
         isShort={isShort}
         searchMovies={searchMovies}
-        searchResults={searchedMovie}
+        searchResults={searchResults}
         handleSearch={handleSearch}
         setError={setError}
         firstEntrance={firstEntrance}
-        savedMovie={savedMovie}
+        savedFilms={savedFilms}
       />
       <MoviesCardList
-        movies={filteredMovies}
+        movies={filterResults}
         onDelete={onDelete}
         firstEntrance={firstEntrance}
       />

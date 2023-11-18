@@ -1,8 +1,9 @@
 import Input from "../Input/Input";
 import SectionLogin from "../SectionLogin/SectionLogin";
 import useFormValidation from '../../useFormValidation/useFormValidation'
+import { Email_Reg } from "../../utils/constants";
 
-function Login({ name, onLogin, setError, errorMessage, setErrorMessage }) {
+function Login({ name, onLogin, setError}) {
   const { values, errors, isInputValid, isValid, handleChange, } = useFormValidation()
 
   function onSubmit(evt) {
@@ -14,9 +15,7 @@ function Login({ name, onLogin, setError, errorMessage, setErrorMessage }) {
     <SectionLogin name={name}
       isValid={isValid} 
       onSubmit={onSubmit} 
-      setError={setError} 
-      errorMessage={errorMessage}
-      setErrorMessage={setErrorMessage}>
+      setError={setError} >
       <Input
         name='email'
         type='email'
@@ -28,6 +27,7 @@ function Login({ name, onLogin, setError, errorMessage, setErrorMessage }) {
           handleChange(evt)
           setError(false)
         }}
+        pattern={Email_Reg}
         placeholder='Введите вашу электронную почту'
       />
       <Input

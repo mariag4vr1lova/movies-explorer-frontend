@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Form from '../Form/Form'
 import './Profile.css'
 import Input from '../Input/Input'
@@ -8,10 +8,10 @@ import { useContext } from 'react'
 import ActualUserContext from '../../contexts/ActualUserContext'
 import { Email_Reg, ProfileName_Reg } from "../../utils/constants";
 
-function Profile({ name, setLoggedIn, editUserData, setError, isSuccess, setSuccess, setIsEdit, isEdit}) {
+function Profile({ name, handleLogout, editUserData, setError, isSuccess, setSuccess, setIsEdit, isEdit}) {
   const actualUser = useContext(ActualUserContext)
   const { values, errors, isInputValid, isValid, handleChange, reset } = useFormValidation()
-  const navigate = useNavigate();
+  
   useEffect(() => {
     reset({ username: actualUser.name, email: actualUser.email })
   }, [reset, actualUser, isEdit])
@@ -19,11 +19,6 @@ function Profile({ name, setLoggedIn, editUserData, setError, isSuccess, setSucc
   function onSubmit(evt) {
     evt.preventDefault()
     editUserData(values.username, values.email)
-  }
-  function handleLogout() {
-    localStorage.clear()
-    setLoggedIn(false)
-    navigate('/')
   }
 
   return (
