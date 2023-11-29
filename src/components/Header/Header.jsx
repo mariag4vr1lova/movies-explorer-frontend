@@ -5,7 +5,7 @@ import { Link, useLocation } from "react-router-dom"
 
 
 function Header({ name, loggedIn }) {
-    const { pathname } = useLocation()
+    const location = useLocation();
     const [isOpen, setIsOpen] = useState(false)
     
     function handelClick() {
@@ -42,10 +42,10 @@ function Header({ name, loggedIn }) {
         <nav>
             <ul className='header__links-container'>
                 <li>
-                    <Link to={'/signup'} className="header__signup">Регистрация</Link>
+                    <Link to={'/signup'} className="header__register">Регистрация</Link>
                 </li>
                 <li>
-                    <Link to={'/signin'} className="header__signin">Войти</Link>
+                    <Link to={'/signin'} className="header__login">Войти</Link>
                 </li>
             </ul>
         </nav>
@@ -56,25 +56,25 @@ function Header({ name, loggedIn }) {
                 <li className='header__link-container'>
                     <Link
                     to={'/'}
-                    className={`header__link ${pathname === '/' ? 'header__link_active' : ''}`}
+                    className={`header__link ${location.pathname === '/' ? 'header__link_active' : ''}`}
                     onClick={clickLink}>Главная</Link>
                 </li>
                 <li className='header__link-container'>
                     <Link
                     to={'/movies'}
-                    className={`header__link ${pathname === '/movies' ? 'header__link_active' : ''}`}
+                    className={`header__link ${location.pathname === '/movies' ? 'header__link_active' : ''}`}
                     onClick={clickLink}>Фильмы</Link>
                 </li>
                 <li className='header__link-container'>
                     <Link
                     to={'/saved-movies'}
-                    className={`header__link ${pathname === '/saved-movies' ? 'header__link_active' : ''}`}
+                    className={`header__link ${location.pathname === '/saved-movies' ? 'header__link_active' : ''}`}
                     onClick={clickLink}>Сохранённые фильмы</Link>
                 </li>
                 <li className='header__link-container'>
                     <Link
                     to={'/profile'}
-                    className={`header__link header__link_type_account ${pathname === '/profile' ? 'header__link_active' : ''}`}
+                    className={`header__link header__link_type_account ${location.pathname === '/profile' ? 'header__link_active' : ''}`}
                     onClick={clickLink}>Аккаунт 
                     <div className='header__account-icon'></div>
                     </Link>

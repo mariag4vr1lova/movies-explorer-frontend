@@ -1,50 +1,66 @@
 import Input from "../Input/Input";
 import SectionLogin from "../SectionLogin/SectionLogin";
 import useFormValidation from '../../useFormValidation/useFormValidation'
-import { useNavigate } from "react-router-dom";
+import { Email_Reg } from "../../utils/constants";
 
+function Register({ name, onRegister, setError }) {
+  const { values, errors, isInputValid, isValid, handleChange, } = useFormValidation()
 
-function Register({ name, setLoggedIn }) {
-    const navigate = useNavigate()
-    const { values, errors, isInputValid, isValid, handleChange, } = useFormValidation()
+  function onSubmit(evt) {
+    evt.preventDefault()
+    onRegister(values.username, values.email, values.password)
+  }
 
-    function onLogin(evt) {
-        evt.preventDefault()
-        navigate('/signin')
-        setLoggedIn(true)
-    }
-    return (
-        <SectionLogin name={name} isValid={isValid} onSubmit={onLogin}>
-        <Input
-            name='username'
-            type='text'
-            title='Имя'
-            minLength = '2'
-            value={values.username}
-            isInputValid={isInputValid.username}
-            error={errors.username}
-            onChange={handleChange}
-        />
-        <Input
-            name='email'
-            type='email'
-            title='E-mail'
-            value={values.email}
-            isInputValid={isInputValid.email}
-            error={errors.email}
-            onChange={handleChange}
-        />
-        <Input
-            name='password'
-            type='password'
-            title='Пароль'
-            minLength = '3'
-            value={values.password}
-            isInputValid={isInputValid.password}
-            error={errors.password}
-            onChange={handleChange}
-        />
-        </SectionLogin>
-    )
+  return (
+    <SectionLogin 
+      name={name}
+      isValid={isValid} 
+      onSubmit={onSubmit} 
+      setError={setError}
+      >
+      <Input
+        name='username'
+        type='text'
+        title='Имя'
+        minLength='2'
+        value={values.username}
+        isInputValid={isInputValid.username}
+        error={errors.username}
+        onChange={(evt) => {
+          handleChange(evt)
+          setError(false)
+        }}
+        placeholder='Введите ваше имя'
+      />
+      <Input
+        name='email'
+        type='email'
+        title='E-mail'
+        value={values.email}
+        isInputValid={isInputValid.email}
+        error={errors.email}
+        onChange={(evt) => {
+          handleChange(evt)
+          setError(false)
+        }}
+        pattern={Email_Reg}
+        placeholder='Введите электронную почту'
+      />
+      <Input
+        name='password'
+        type='password'
+        title='Пароль'
+        minLength='3'
+        value={values.password}
+        isInputValid={isInputValid.password}
+        error={errors.password}
+        onChange={(evt) => {
+          handleChange(evt)
+          setError(false)
+        }}
+        placeholder='Введите пароль'
+      />
+    </SectionLogin>
+  )
 }
 export default Register

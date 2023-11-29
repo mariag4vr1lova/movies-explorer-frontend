@@ -1,6 +1,10 @@
+import { useContext } from 'react'
 import './Input.css'
+import SendContext from '../../contexts/SendContext'
 
-function Input({ selectname, name, type, title, minLength, value, isInputValid, error, onChange }) {
+
+function Input({ selectname, name, type, title, minLength, value, isInputValid, error, onChange, pattern, isEdit, placeholder }){
+    const isSend = useContext(SendContext)
     return (
     <>
     {selectname !== 'profile' ?
@@ -15,6 +19,9 @@ function Input({ selectname, name, type, title, minLength, value, isInputValid, 
             value={value || ''}
             onChange={onChange}
             autoComplete='on'
+            disabled={isSend}
+            pattern={pattern}
+            placeholder={placeholder}
         />
         <span className='login__error'>{error}</span>
     </label>
@@ -30,6 +37,8 @@ function Input({ selectname, name, type, title, minLength, value, isInputValid, 
                 className={`profile__input ${isInputValid === undefined || isInputValid ? '' : 'profile__input_invaid'}`}
                 value={value || ''}
                 onChange={onChange}
+                disabled={isSend || !isEdit}
+                pattern={pattern}
                 />
         </label>
         <span className={`profile__error ${name === 'username' ? 'profile__error_type_name' : ''}`}>{error}</span>

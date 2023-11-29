@@ -2,12 +2,12 @@ import { Link } from 'react-router-dom'
 import Form from '../Form/Form'
 import './SectionLogin.css'
 
-function SectionLogin({ name, children, isValid, onSubmit }) {
+function SectionLogin({ name, children, isValid, onSubmit, setError }) {
     return (
     <section className='login page__login'>
         <Link to={'/'} className="login__link-home"></Link>
         <h2 className='login__title'>{name === 'signin' ? 'Рады видеть!' : 'Добро пожаловать!'}</h2>
-        <Form name={name} isValid={isValid} onSubmit={onSubmit}>
+        <Form name={name} isValid={isValid} onSubmit={onSubmit} setError={setError} >
             {children}
         </Form>
         {name === 'signin' ?

@@ -46,6 +46,11 @@
         row-gap: 19px
     }
 }
+.movies__serch-error {
+    text-align: center;
+    color: var(--second-font-color);
+    font-family: 'Inter';
+}
 
 .movies__more {
     display: block;
@@ -63,7 +68,6 @@
     color: var(--main-font-color);
     cursor: pointer;
 }
-
 @media screen and (max-width: 767px) {
     .movies__more {
         width: 240px;
